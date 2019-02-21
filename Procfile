@@ -1,0 +1,1 @@
+worker: pm2 start app.js && pm2 logs all

@@ -1,0 +1,21 @@
+{
+  "name": "circlus",
+  "version": "0.0.0",
+  "description": "Circlus, a simple osu!bot",
+  "main": "app.js",
+  "author": {
+    "name": "bastoo0"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "discord.js": "^11.4.2",
+    "enmap": "^4.7.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.14",
+    "node-osu": "^1.3.2",
+    "osu.js": "^2.0.3"
+  },
+  "scripts": {
+    "preinstall": "npm i -g pm2 && pm2 install pm2-logrotate"
+  }
+}
