@@ -10,8 +10,7 @@ bot.logs = require('./Modules/FancyLogs.js');
 
 const init = async () => {
 
-    // Here we load **commands** into memory, as a collection, so they're accessible
-    // here and everywhere else.
+    // Loading commands as a collection
     const cmdFiles = await readdir("./commands/");
     bot.logs.log(`Loading a total of ${cmdFiles.length} commands.`);
     cmdFiles.forEach(f => {
@@ -22,7 +21,7 @@ const init = async () => {
         bot.commands.set(commandName, props);
     });
 
-    // Then we load events, which will include our message and ready event.
+    // Loading events
     const evtFiles = await readdir("./events/");
     bot.logs.log(`Loading a total of ${evtFiles.length} events.`);
     evtFiles.forEach(file => {
@@ -31,13 +30,13 @@ const init = async () => {
         const event = require(`./events/${file}`);
         // Bind the bot to any event, before the existing arguments
         // provided by the discord.js event. 
-        // This line is awesome by the way. Just sayin'.
         bot.on(eventName, event.bind(null, bot));
     });
 
     bot.login(bot.config.token);
 
 }
+// Bot init
 init();
 
 bot.loadCommand = (commandName) => {

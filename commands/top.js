@@ -1,11 +1,10 @@
 ﻿const osu = require('osu.js');
-const config = require('../config.js');
 const mongoose = require('mongoose');
 const Ranking = require('../models/ranking.js');
 
 exports.run = (bot, message) => {
 
-    getranking(message.guild.id, message).then(top => {
+    getranking(bot, message.guild.id, message).then(top => {
             
         var command = "**" + top[top.length - 1].name + "** is in the lead! \r\n";
         command += "```fix\r\n╔══════╦═════════════════╦═════════════╗\r\n";
@@ -36,9 +35,9 @@ exports.run = (bot, message) => {
     })
 }
 
-function getranking(idGuild, command) {
-    mongoose.connect('mongodb://localhost:27017/Ranking', {useNewUrlParser: true});
-    const osuApi = new osu.api(config.apikey);
+function getranking(bot, idGuild, command) {
+    mongoose.connect(bot.config.ranking, {useNewUrlParser: true});
+    const osuApi = new osu.api(bot.config.apikey);
     let topname = command.content.split(' ');
     topname.shift();
     return new Promise((resolve, reject) => {

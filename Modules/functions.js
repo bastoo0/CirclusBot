@@ -88,6 +88,47 @@ function getModPic(num) {
     return { linktab, modname };
 }
 
+function toparrays(command){
+
+    let argsname = command.content.split(' '); // Splits the command in an array at each space 
+    for (let i = 0; i < argsname.length; i++) { // Tests if there is any name with spaces (delimited by #)
+        if (argsname[i].startsWith("#")) {
+            while (!argsname[i].endsWith("#")) {
+                argsname.splice(i, 1); // Remove any name delimited by #
+            }
+            argsname.splice(i, 1);
+            i--;
+        }
+    }
+    let temp = command.content.split('#');  // Add every name delimited with # in an array
+    if (temp.length > 0) {
+        for (let i = 0; i < temp.length; i++) {
+            temp.splice(i, 1);
+        }
+    }
+
+    argsname.splice(0, 2); // Delete the first part of the command
+
+    let argsmode = command.content.split('=');
+    argsmode.shift();
+    if (!argsmode[0]) {
+        argsmode[0] = "1";
+    } else argsname.pop(); // Delete the mode from argsname if exists
+
+    if (temp.length > 0)
+    argsname.push(...temp); // Add the array of "names with spaces" to the players array
+
+    let topname = command.content.split('"'); // Find the name of the top
+    topname.shift();
+    topname.pop();
+
+    return [
+        topname,
+        argsname,
+        argsmode
+    ];
+}
+
 module.exports = {
-    secondsToHms, precise, getMode, getModPic
+    secondsToHms, precise, getMode, getModPic, toparrays
 }
