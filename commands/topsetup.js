@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Ranking = require('../models/ranking');
 const func = require('../Modules/functions');
 
-exports.run = async (bot, message) => {
+exports.run = (bot, message) => {
     var idGuild = message.guild.id;
 
     var arraysget = func.toparrays(message);
@@ -28,6 +28,7 @@ exports.run = async (bot, message) => {
                 }).catch(error => {
                     message.reply("Error: Username(s) or command might be wrong ^^'");
                     errVal = true;
+                    return;
                 });
             }
             // Writing in the database if everything is alright 

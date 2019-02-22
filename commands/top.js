@@ -72,7 +72,8 @@ function getranking(bot, idGuild, command) {
                         }
                         arrPlayers.push(...temp);
                     }
-
+                    if(arrPlayers.length < 1)
+                        return message.reply("Your top is empty, please add some players with !topadd");
                     var pptab = new Array();
                     var tabplayers = new Array();
                     (async function loop() {

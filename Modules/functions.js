@@ -102,7 +102,7 @@ function toparrays(command){
     }
     let temp = command.content.split('#');  // Add every name delimited with # in an array
     if (temp.length > 0) {
-        for (let i = 0; i < temp.length; i++) {
+        for (let i = 0; i < temp.length; i++) { // This somehow removes all empty elements in the array
             temp.splice(i, 1);
         }
     }
