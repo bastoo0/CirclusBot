@@ -88,9 +88,17 @@ function getModPic(num) {
     return { linktab, modname };
 }
 
+function isOdd(num){
+    return (num % 2) == 1;
+}
+
 function toparrays(command){
 
     let argsname = command.content.split(' '); // Splits the command in an array at each space 
+    var delim = command.content.split('#');
+    var numdelim = delim.length - 1;
+    if(isOdd(numdelim)) return -1;
+
     for (let i = 0; i < argsname.length; i++) { // Tests if there is any name with spaces (delimited by #)
         if (argsname[i].startsWith("#")) {
             while (!argsname[i].endsWith("#")) {
@@ -117,7 +125,6 @@ function toparrays(command){
 
     if (temp.length > 0)
     argsname.push(...temp); // Add the array of "names with spaces" to the players array
-
     let topname = command.content.split('"'); // Find the name of the top
     topname.shift();
     topname.pop();

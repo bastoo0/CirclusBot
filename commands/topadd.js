@@ -4,8 +4,8 @@ const Ranking = require('../models/ranking');
 const func = require('../Modules/functions');
 
 exports.run = (bot, message) => {
-
     var arraysget = func.toparrays(message);
+    if(arraysget === -1) return message.reply('Error in typing the command, type "!circlus" for help :)');
     let topname = arraysget[0];
     let argsname = arraysget[1];
     var argsmode = "1";
@@ -16,7 +16,7 @@ exports.run = (bot, message) => {
     mongoose.connect(bot.config.ranking, { useNewUrlParser: true });
     Ranking.findOne({
         idguild: message.guild.id,
-        nameoftop: topname
+        nameoftop: topname[0]
     }, (err, rank) => {
         if (err) {
             return message.reply('Something went wrong :c Please verify your command');

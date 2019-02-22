@@ -7,6 +7,7 @@ exports.run = (bot, message) => {
     var idGuild = message.guild.id;
 
     var arraysget = func.toparrays(message);
+    if(arraysget === -1) return message.reply('Error in typing the command, type "!circlus" for help :)');
     let topname = arraysget[0];
     let argsname = arraysget[1];
     let argsmode = arraysget[2];
@@ -36,7 +37,7 @@ exports.run = (bot, message) => {
                 mongoose.connect(bot.config.ranking, {useNewUrlParser: true});
                 Ranking.findOne({
                     idguild : idGuild,
-                    nameoftop : topname
+                    nameoftop : topname[0]
                     }, (err, rank) => {
                         if(err) {
                             return message.reply('An error happend :c Please verify your command');
