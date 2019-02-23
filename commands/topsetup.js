@@ -34,7 +34,7 @@ exports.run = (bot, message) => {
             }
             // Writing in the database if everything is alright 
             if (!errVal) {
-                mongoose.connect(bot.config.ranking)//, {useNewUrlParser: true});
+                mongoose.connect(bot.config.ranking, {useNewUrlParser: true});
                 Ranking.findOne({
                     idguild : idGuild,
                     nameoftop : topname[0]
