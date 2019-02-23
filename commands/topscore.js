@@ -1,4 +1,5 @@
-﻿const osu = require('osu.js');
+// This works the same as the !top command, just changing some values and the ranking style
+const osu = require('osu.js');
 const mongoose = require('mongoose');
 const Ranking = require('../models/ranking.js');
 
@@ -7,26 +8,26 @@ exports.run = (bot, message) => {
     getranking(bot, message.guild.id, message).then(top => {
             
         var command = "**" + top[top.length - 1].name + "** is in the lead! \r\n";
-        command += "```fix\r\n╔══════╦═════════════════╦═════════════╗\r\n";
-        command += "║ Rank ║     Players     ║ Performance ║\r\n";
+        command += "```\r\n╔══════╦═════════════════╦════════════════════╗\r\n";
+        command += "║ Rank ║     Players     ║ Total ranked score ║\r\n";
         var playerspace = "";
-        var ppspace = "";
+        var scorespace = "";
         for (let i = top.length - 1, n = 1; i >= 0; i-- , n++) {
-            command += "╠══════╬═════════════════╬═════════════╣\r\n";
+            command += "╠══════╬═════════════════╬════════════════════╣\r\n";
             for (let x = 0; x < 15 - top[i].name.length; x++)
                 playerspace += " ";
-            for (let x = 0; x < 7 - top[i].pp.toString().length; x++)
-                ppspace += " ";
+            for (let x = 0; x < 15 - top[i].score.toString().length; x++)
+                scorespace += " ";
 
             if(n<10)
-                command += "║ #" + n + "   ║ " + top[i].name + playerspace + " ║ " + top[i].pp + " pp " + ppspace + " ║\r\n";
-            else command += "║ #" + n + "  ║ " + top[i].name + playerspace + " ║ " + top[i].pp + " pp " + ppspace + " ║\r\n";
+                command += "║ #" + n + "   ║ " + top[i].name + playerspace + " ║ " + top[i].score.toString().replace(/(.)(?=(.{3})+$)/g,"$1,") + scorespace + " ║\r\n";
+            else command += "║ #" + n + "  ║ " + top[i].name + playerspace + " ║ " + top[i].score.toString().replace(/(.)(?=(.{3})+$)/g,"$1,") + scorespace + " ║\r\n";
 
             playerspace = "";
-            ppspace = "";
-            }
+            scorespace = "";
+        }
         bot.logs.log(message.content);
-        command += "╚══════╩═════════════════╩═════════════╝```";
+        command += "╚══════╩═════════════════╩════════════════════╝```";
         message.reply(command);
         })
       .catch (e => {
@@ -74,23 +75,23 @@ function getranking(bot, idGuild, command) {
                     }
                     if(arrPlayers.length < 1)
                         return message.reply("Your top is empty, please add some players with !topadd");
-                    var pptab = new Array();
+                    var scoretab = new Array();
                     var tabplayers = new Array();
                     (async function loop() {
                         for (let i = 0; i < arrPlayers.length; i++) {
                             await osuApi.getUser({ "u": arrPlayers[i], "m": arrMode, "type":String }).then(user => {
-                                pptab[i] = user[0].pp_raw;
+                                scoretab[i] = user[0].ranked_score;
                                 tabplayers[i] = user[0].username;
                             }).catch(error => {
                                 reject(error);
                             })
                         }
                         var list = [];
-                        for (let i = 0; i < pptab.length; i++)
-                            list.push({ 'name': tabplayers[i], 'pp': parseFloat(pptab[i]) });
+                        for (let i = 0; i < scoretab.length; i++)
+                            list.push({ 'name': tabplayers[i], 'score': parseFloat(scoretab[i]) });
 
                         list.sort(function (a, b) {
-                            return ((a.pp < b.pp) ? -1 : ((a.pp == b.pp) ? 0 : 1));
+                            return ((a.score < b.score) ? -1 : ((a.score == b.score) ? 0 : 1));
                         });
                         resolve(list);
                     })();

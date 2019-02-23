@@ -1,15 +1,25 @@
 ﻿exports.run = (bot, message) => {
-    message.reply("\r\nList of commands I can perform:\r\n\r\n**!topsetup** -- Setup a ranking this way --> !topsetup \"NameOfTheTop\" Player1 " +
-        "Player2 #Player with spaces in his name# Player4 ...\r\n   If you want to chose another mode than standard, type m=1/2/3 at the end of the command\r\n" +
-        "   Standard = 0, osu!taiko = 1, osu!catch = 2, osu!mania = 3\r\n" +
-        "   Example for an osu!catch ranking: !topsetup \"Gods\" ExGon #Touch Me# Motion m=2" +
-        "\r\n\r\n**!top** -- Show your ranking this way --> !top NameOfTheTop\r\n" +
-        "**!topadd** - Add players to your top --> !topadd \"NameOfTheTop\" Player1 Player2 ...\r\n" +
-        "**!toplist** -- Show the list of the rankings set up in the Discord server\r\n" +
-        "**!topdelete** -- Delete one of your server's rankings --> !topdelete NameOfTheTop\r\n" +
-        "**!info** -- Show profile information of a player in the desired mode --> Example: !info ExGon m=2\r\n" +
-        "**!rank** -- Show the player's rank --> !rank player\r\n" +
-        "**!profilelink** -- Show the link of the player's profile --> !profilelink player\r\n" +
-        "**!profilepic** -- Show the player's profile picture on osu! --> !profilepic player\r\n\r\n"+
-        "This is the first version of this bot, more features will probably be added in the future ^^\r\n");
+    message.reply("This is what I can do for your server ^^\r\n\r\n---------- **Ranking commands** ---------- \r\n" +
+        "For those commands, if you write an username containing spaces, please use \"#\" to delimit it.\r\n" + 
+        "**!topsetup** -- Create a personalized ranking!\r\n" +
+        "Create a ranking this way --> *!topsetup \"NameOfTheTop\" username1 username2 #username with spaces in his name# username4 ...*\r\n" +
+        "    By default, the gamemode is standard, if you want to choose another mode, type m=1 or m=2 or m=3 at the end of the command.\r\n" +
+        "    Standard = 0, osu!taiko = 1, osu!catch = 2, osu!mania = 3\r\n" +
+        "    Example for an osu!catch ranking: *!topsetup \"Gods\" ExGon #Touch Me# Motion m=2*\r\n\r\n" +
+        "**!top** -- Show the ranking --> *!top NameOfTheTop*\r\n" +
+        "**!topscore** -- Show the score ranking --> *!topscore NameOfTheTop*\r\n" +
+        "**!topadd** -- Add players to your top --> *!topadd \"NameOfTheTop\" username1 username2 ...*\r\n" +
+        "**!toprm** -- Remove players from your top --> *!toprm \"NameOfTheTop\" username1 username2 ...*\r\n"+
+        "**!toplist** -- Show the list of the rankings set up in your Discord server\r\n" +
+        "**!topdelete** -- Delete one of your server's rankings --> *!topdelete NameOfTheTop*\r\n\r\n" +
+        " -------- **Other commands unrelated to the ranking** -------- \r\n" +
+        "For those commands, you have to use usernames containing spaces without delimiting them with \"#\"\r\n"+
+        "By default, the gamemode is standard, if you don't use m= at the end of the command.\r\n" +
+        "**!profile** -- Show profile information of a player in the desired mode --> Example: *!profile nathan on osu*\r\n" +
+        "**!best** -- Show the player's five best performances in the desired mode --> *Example: !best ExGon m=2*\r\n" +
+        "**!rank** -- Show the player's rank --> *!rank username m=2*\r\n" +
+        "For the following command, please don't use the gamemode selection:\r\n" +
+        "**!profilelink** -- Show the link of the player's profile --> *!profilelink username*\r\n" +
+        "**!profilepic** -- Show the player's profile picture on osu! --> *!profilepic username*\r\n\r\n"+
+        "This is the first version of this bot, more features will probably be added in the future. ^^\r\n");
 }

@@ -117,10 +117,10 @@ function toparrays(command){
 
     argsname.splice(0, 2); // Delete the first part of the command
 
-    let argsmode = command.content.split('=');
+    let argsmode = command.content.split('m=');
     argsmode.shift();
     if (!argsmode[0]) {
-        argsmode[0] = "1";
+        argsmode[0] = "0";
     } else argsname.pop(); // Delete the mode from argsname if exists
 
     if (temp.length > 0)
