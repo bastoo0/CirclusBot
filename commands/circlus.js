@@ -20,6 +20,5 @@
         "**!rank** -- Show the player's rank --> *!rank username m=2*\r\n" +
         "For the following command, please don't use the gamemode selection:\r\n" +
         "**!profilelink** -- Show the link of the player's profile --> *!profilelink username*\r\n" +
-        "**!profilepic** -- Show the player's profile picture on osu! --> *!profilepic username*\r\n\r\n"+
-        "This is the first version of this bot, more features will probably be added in the future. ^^\r\n");
+        "**!profilepic** -- Show the player's profile picture on osu! --> *!profilepic username*\r\n\r\n");
 }
