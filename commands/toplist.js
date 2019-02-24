@@ -2,7 +2,7 @@
 const Ranking = require('../models/ranking');
 
 exports.run = (bot, message) => {
-    mongoose.connect('mongodb://localhost:27017/Ranking', {useNewUrlParser: true});
+    mongoose.connect(bot.config.ranking, {useNewUrlParser: true});
     Ranking.find({idguild : message.guild.id}, (err, docs) => {
         if(err){
             message.reply("An error occured :c");
