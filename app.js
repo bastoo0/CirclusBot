@@ -58,8 +58,8 @@ bot.loadCommand = (commandName) => {
 
 
 bot.on("ready", () => {
-    //bot.user.setActivity(`on ${bot.guilds.size} servers`);
-    bot.user.setActivity(`being maintained, just ignore me xd`);
+    bot.user.setActivity(`on ${bot.guilds.size} servers`);
+    //bot.user.setActivity(`being maintained, just ignore me xd`);
     console.log(`Ready to serve on ${bot.guilds.size} servers, for ${bot.users.size} users.`);
 });
 
