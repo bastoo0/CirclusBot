@@ -3,6 +3,7 @@ const readdir = promisify(require("fs").readdir);
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const Enmap = require("enmap");
+const ranking = require("./Modules/checkForChanges");
 
 bot.config = require('./config.js');
 bot.commands = new Enmap();
@@ -61,6 +62,11 @@ bot.on("ready", () => {
     bot.user.setActivity(`on ${bot.guilds.size} servers`);
     //bot.user.setActivity(`being maintained, just ignore me xd`);
     console.log(`Ready to serve on ${bot.guilds.size} servers, for ${bot.users.size} users.`);
+
+    function checkRanking(){
+        ranking.track(bot);
+    }
+    setInterval(checkRanking, 5000)
 });
 
 

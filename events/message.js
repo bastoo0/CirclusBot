@@ -2,7 +2,7 @@
     // Ignore all bots
     if (message.author.bot) return;
 
-    // Ignore messages not starting with the prefix (in config.json)
+    // Ignore messages not starting with the prefix
     if (message.content.indexOf(bot.config.prefix) !== 0) return;
 
     // Our standard argument/command name definition.

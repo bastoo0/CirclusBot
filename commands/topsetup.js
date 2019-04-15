@@ -15,6 +15,9 @@ exports.run = (bot, message) => {
     if(argsname.length < 1 || topname.length < 1)
     return message.reply('Error in typing the command, type "!circlus" for help :)')
     
+    if(argsname > 20)
+    return message.reply("Please don't add too many players... otherwise i'm gonna explode :x (max 20 players please :c)")
+
     const osuApi = new osu.api(bot.config.apikey);
     var tabplayers = new Array();
     var tabpp = new Array();
@@ -27,7 +30,7 @@ exports.run = (bot, message) => {
                         tabplayers[i] = "#" + user[0].username + "#";
                     } else tabplayers[i] = user[0].username;
                 }).catch(error => {
-                    message.reply("Error: Username(s) or command might be wrong ^^'");
+                    message.reply("Error: Username " + argsname[i] + " or command might be wrong ^^'");
                     errVal = true;
                     return;
                 });

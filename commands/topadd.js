@@ -13,6 +13,10 @@ exports.run = (bot, message) => {
         return message.reply(`Please write at least one player to add to the ranking and the name of the ranking (ex: !topadd "name" Player1 Player2...)^^`)
     if (topname.length < 1)
         return message.reply(`Please, write a name for the ranking to modify (ex: !topadd "name" Player1 Player2...) ^^`);
+
+    if(argsname > 20)
+    return message.reply("Please don't add too many players... otherwise i'm gonna explode :x (max 20 players please :c)")
+    
     mongoose.connect(bot.config.ranking, { useNewUrlParser: true });
     Ranking.findOne({
         idguild: message.guild.id,
