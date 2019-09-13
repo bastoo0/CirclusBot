@@ -24,10 +24,48 @@ exports.run = (bot, message) => {
             return message.reply("The ranking you want to edit doesn't exist :c\r\n" +
                 "You can create one with the !topsetup command\r\nUse !circlus for more help ^^");
         } else {
+            argsmode = rank.mode.toString();
+            const osuApi = new osu.api(bot.config.apikey);
+            var tabpp = new Array();
+            var tabid = new Array();
+            var errVal = false;
+            (async function loop() {
+                for (let i = 0; i < argsname.length; i++) {
+                    await osuApi.getUser({ "u": argsname[i], "m": argsmode, "type":String }).then(user => {
+                        tabpp[i] = user[0].pp_raw;
+                        tabid[i] = user[0].user_id;
+                    }).catch(error => {
+                        message.reply("Error: Username(s) or command might be wrong ^^'");
+                        errVal = true;
+                        return;
+                    });
+                }
+                if(!errVal){
+                    oldID = rank.players.split(" ");
+                    oldpp = rank.pp.split(" ");
+                    for (var index = 0; index < oldID.length; index++) {
+                        for(var i = 0; i< tabid.length; i++) {
+                            if (oldID[index] === tabid[i]) {
+                                oldID.splice(index, 1);
+                                tabid.splice(i, 1);
+                                oldpp.splice(index,1);
+                            }
+                        }
+                    }
+                    if (oldID === rank.players.split(" "))
+                        return message.reply("Oops, those players were apparently missing from the ranking uwu"); 
 
-            var command = {
-                content: `!command "name" ${rank.players}`
-            };
+                    rank.players = oldID.join(" ");
+                    rank.pp = oldpp.join(" ");
+                    rank.save().catch(err => console.log(err));
+                    return message.reply(`Successfuly removed the players from the ranking ^^`);
+                 }
+            })();
+        }
+    })
+}
+             // Used to manage players listed by username, now deprecated because of IDs
+/* 
             let result = func.toparrays(command);
             let previous = result[1];
             var tabpp = rank.pp.split(" ");
@@ -41,7 +79,8 @@ exports.run = (bot, message) => {
                     tabpp.splice(s,1);
                 }
             }
-            for (var i = 0; i < previous.length; i++) {
+           
+           for (var i = 0; i < previous.length; i++) {
                 if (previous[i].indexOf(' ') !== -1)
                     splayers += "#" + previous[i] + "# ";
                 else splayers += previous[i] + " ";
@@ -63,4 +102,4 @@ exports.run = (bot, message) => {
             }
         }
     })
-}
+}*/

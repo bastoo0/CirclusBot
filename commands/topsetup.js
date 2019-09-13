@@ -19,16 +19,14 @@ exports.run = (bot, message) => {
     return message.reply("Please don't add too many players... otherwise i'm gonna explode :x (max 20 players please :c)")
 
     const osuApi = new osu.api(bot.config.apikey);
-    var tabplayers = new Array();
+    var tabID = new Array();
     var tabpp = new Array();
     var errVal = false;
         (async function loop() {
             for (let i = 0; i < argsname.length; i++) {
                 await osuApi.getUser({ "u": argsname[i], "m": argsmode.join(''), "type":String }).then(user => {
                     tabpp[i] = user[0].pp_raw;
-                    if (user[0].username.indexOf(' ') !== -1) {
-                        tabplayers[i] = "#" + user[0].username + "#";
-                    } else tabplayers[i] = user[0].username;
+                    tabID[i] = user[0].user_id;
                 }).catch(error => {
                     message.reply("Error: Username " + argsname[i] + " or command might be wrong ^^'");
                     errVal = true;
@@ -49,7 +47,7 @@ exports.run = (bot, message) => {
                             const newRanking = new Ranking({
                                 idguild: idGuild.toString(),
                                 nameoftop: topname.join(''),
-                                players: tabplayers.join(' '),
+                                players: tabID.join(' '),
                                 pp: tabpp.join(' '),
                                 mode: argsmode.join('')
                             })
@@ -57,7 +55,7 @@ exports.run = (bot, message) => {
                             return message.reply("Done <w<");
                         }
                         else {
-                            rank.players = tabplayers.join(' ');
+                            rank.players = tabID.join(' ');
                             rank.pp = tabpp.join(' ');
                             rank.mode = argsmode.join('');
                             rank.save().catch(err => console.log(err));

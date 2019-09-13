@@ -5,29 +5,41 @@ const Ranking = require('../models/ranking.js');
 exports.run = (bot, message) => {
 
     getranking(bot, message.guild.id, message).then(top => {
-            
-        var command = "**" + top[top.length - 1].name + "** is in the lead! \r\n";
-        command += "```fix\r\n╔══════╦═════════════════╦═════════════╗\r\n";
-        command += "║ Rank ║     Players     ║ Performance ║\r\n";
+        var command = new Array();
+        command[0] = "**" + top[top.length - 1].name + "** is in the lead! \r\n";
+        command[1] = "";
+        var numcmd = 0;
+        command[0] += "```fix\r\n╔══════╦═════════════════╦═════════════╗\r\n";
+        command[0] += "║ Rank ║     Players     ║ Performance ║\r\n";
         var playerspace = "";
         var ppspace = "";
         for (let i = top.length - 1, n = 1; i >= 0; i-- , n++) {
-            command += "╠══════╬═════════════════╬═════════════╣\r\n";
+            if(command[0].length > 1700 && numcmd === 0) {
+                numcmd =  1;
+                command[0] += "```";
+                command[1] += "```fix\r\n"
+            }
+            command[numcmd] += "╠══════╬═════════════════╬═════════════╣\r\n";
             for (let x = 0; x < 15 - top[i].name.length; x++)
                 playerspace += " ";
             for (let x = 0; x < 7 - top[i].pp.toString().length; x++)
                 ppspace += " ";
 
             if(n<10)
-                command += "║ #" + n + "   ║ " + top[i].name + playerspace + " ║ " + top[i].pp + " pp " + ppspace + " ║\r\n";
-            else command += "║ #" + n + "  ║ " + top[i].name + playerspace + " ║ " + top[i].pp + " pp " + ppspace + " ║\r\n";
+                command[numcmd] += "║ #" + n + "   ║ " + top[i].name + playerspace + " ║ " + top[i].pp + " pp " + ppspace + " ║\r\n";
+            else command[numcmd] += "║ #" + n + "  ║ " + top[i].name + playerspace + " ║ " + top[i].pp + " pp " + ppspace + " ║\r\n";
 
             playerspace = "";
             ppspace = "";
             }
         bot.logs.log(message.content);
-        command += "╚══════╩═════════════════╩═════════════╝```";
-        message.reply(command);
+        command[numcmd] += "╚══════╩═════════════════╩═════════════╝```";
+        if(command[1].length + command[0].length > 4000) message.channel.send("You've got too many players in your ranking, I can't display it :c");
+        (async function loop() {
+            await message.channel.send(command[0]);
+            if(command[1].length > 0) message.channel.send(command[1]);
+        })();
+
         })
       .catch (e => {
         bot.logs.log(e);
@@ -55,23 +67,6 @@ function getranking(bot, idGuild, command) {
                     var arrPlayers = rank.players.split(" ");
                     var arrMode = rank.mode;
 
-                    for (let i = 0; i < arrPlayers.length; i++) {
-                        if (arrPlayers[i].startsWith("#")) {
-                            while (!arrPlayers[i].endsWith("#")) {
-                                arrPlayers.splice(i, 1);
-                            }
-                            arrPlayers.splice(i, 1);
-                            i--;
-                        }
-                    }
-
-                    let temp = rank.players.split('#');
-                    if (temp.length > 0) {
-                        for (let i = 0; i < temp.length; i++) {
-                            temp.splice(i, 1);
-                        }
-                        arrPlayers.push(...temp);
-                    }
                     if(arrPlayers.length < 1)
                         return message.reply("Your top is empty, please add some players with !topadd");
                     var pptab = new Array();

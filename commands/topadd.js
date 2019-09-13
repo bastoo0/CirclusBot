@@ -31,16 +31,14 @@ exports.run = (bot, message) => {
         } else {
             argsmode = rank.mode.toString();
             const osuApi = new osu.api(bot.config.apikey);
-            var tabplayers = new Array();
             var tabpp = new Array();
+            var tabid = new Array();
             var errVal = false;
             (async function loop() {
                 for (let i = 0; i < argsname.length; i++) {
                     await osuApi.getUser({ "u": argsname[i], "m": argsmode, "type":String }).then(user => {
                         tabpp[i] = user[0].pp_raw;
-                        if (user[0].username.indexOf(' ') !== -1) {
-                            tabplayers[i] = "#" + user[0].username + "#";
-                        } else tabplayers[i] = user[0].username;
+                        tabid[i] = user[0].user_id;
                     }).catch(error => {
                         message.reply("Error: Username(s) or command might be wrong ^^'");
                         errVal = true;
@@ -49,9 +47,9 @@ exports.run = (bot, message) => {
                 }
                 if(!errVal){
                     rank.pp = rank.pp + " " + tabpp.join(' ');
-                    rank.players = rank.players + " " + tabplayers.join(' ');
+                    rank.players = rank.players + " " + tabid.join(' ');
                     rank.save().catch(err => console.log(err));
-                    return message.reply(`I edited the ranking with ${tabplayers.join(", ")} ^^`);
+                    return message.reply(`I edited the ranking with ${argsname.join(", ")} ^^`);
                 }
             })();
         }

@@ -66,7 +66,7 @@ bot.on("ready", () => {
     function checkRanking(){
         ranking.track(bot);
     }
-    setInterval(checkRanking, 5000)
+    setInterval(checkRanking, 20000)
 });
 
 
